@@ -24,6 +24,7 @@ const MainApp = () => {
   });
 
   const [selectedMainCats, setSelectedMainCats] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // --- [데이터 그룹화 로직] ---
   const getMainCategory = (loc: string) => {
@@ -61,6 +62,14 @@ const MainApp = () => {
   const filteredData = useMemo(() => {
     let result = [...FISH_DATA];
 
+    // 이름 검색 (띄어쓰기 무시)
+    if (searchQuery.trim() !== '') {
+      const normalizedQuery = searchQuery.replace(/\s+/g, '');
+      result = result.filter(item =>
+        item.name.replace(/\s+/g, '').includes(normalizedQuery)
+      );
+    }
+
     // 장소 필터
     if (appliedFilter.location.length > 0) {
       result = result.filter(item => 
@@ -77,7 +86,7 @@ const MainApp = () => {
     }
 
     return result.sort((a, b) => sortOrder === 'asc' ? a.level - b.level : b.level - a.level);
-  }, [appliedFilter, sortOrder]);
+  }, [appliedFilter, sortOrder, searchQuery]);
 
   const toggleMainCategory = (mainCat: string) => {
     const subs = subLocationsMap[mainCat];
@@ -125,13 +134,43 @@ const MainApp = () => {
   return (
     <div className="min-h-screen bg-orange-50 p-4 font-sans">
       <div className="flex justify-between items-center mb-6 max-w-2xl mx-auto mt-4">
-        <button onClick={() => setView('category')} className="text-gray-500 font-medium">← 뒤로</button>
+        <button onClick={() => { setView('category'); setSearchQuery(''); }} className="text-gray-500 font-medium">← 뒤로</button>
         <h2 className="text-xl font-bold text-orange-600">{selectedCategory} 도감</h2>
         <div className="space-x-2">
           <button onClick={() => setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc')} className="bg-white px-3 py-1 rounded-full shadow text-sm font-medium">레벨 {sortOrder === 'asc' ? '↑' : '↓'}</button>
           <button onClick={() => setIsFilterOpen(true)} className="bg-orange-400 text-white px-3 py-1 rounded-full shadow text-sm font-medium">필터 🔍</button>
         </div>
       </div>
+
+      {/* 검색창 */}
+      <div className="max-w-2xl mx-auto mb-4">
+        <div className="relative">
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg">🔎</span>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            placeholder="물고기 이름으로 검색..."
+            className="w-full pl-10 pr-4 py-3 rounded-2xl bg-white shadow-sm border border-orange-100 text-sm focus:outline-none focus:ring-2 focus:ring-orange-300"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-sm font-bold"
+            >
+              ✕
+            </button>
+          )}
+        </div>
+      </div>
+
+      {filteredData.length === 0 && (
+        <div className="max-w-2xl mx-auto text-center py-16 text-gray-400">
+          <p className="text-4xl mb-3">🐟</p>
+          <p className="font-medium">검색 결과가 없어요</p>
+          <p className="text-sm mt-1">다른 이름으로 검색해보세요</p>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
         {filteredData.map(item => (
