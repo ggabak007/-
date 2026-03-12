@@ -5,16 +5,6 @@ import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
-message.txt
-23KB
-﻿
-import React, { useState, useMemo } from 'react';
-import { FISH_DATA, COOKING_DATA, ALL_INGREDIENTS, CATEGORIES } from './data';
-import { QueryClientProvider } from "@tanstack/react-query";
-import { queryClient } from "./lib/queryClient";
-import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
-
 // ─── 낚시 페이지 ─────────────────────────────────────────────────
 const FishingPage = ({ onBack }: { onBack: () => void }) => {
   const [sortOrder, setSortOrder] = useState('asc');
