@@ -39,9 +39,23 @@
 ## 📁 프로젝트 구조 (Project Structure)
 
 ```text
-├── App.tsx             # 메인 랜딩, 낚시/요리 도감 UI 및 데이터 필터링 로직
-├── data.ts             # 어류(FISH_DATA 84종) 및 요리(COOKING_DATA 50종) 원본 데이터
-├── main.tsx            # React root 엔트리 포인트
-├── index.css           # Tailwind CSS 및 커스텀 테마 변수 설정
-├── package.json        # 의존성 패키지 및 빌드 스크립트
-└── vite.config.ts      # Vite 번들러 설정
+.
+├── public/                 # 정적 리소스 파일
+├── shared/                 # 공통 모듈 및 상수
+├── src/                    # 메인 소스 코드
+│   ├── components/         # 리액트 컴포넌트
+│   │   └── ui/             # Radix UI / 공통 UI 컴포넌트 (Toast, Tooltip 등)
+│   ├── hooks/              # 커스텀 리액트 훅 (use-mobile, use-toast 등)
+│   ├── lib/                # 유틸리티 및 라이브러리 설정 (queryClient 등)
+│   ├── pages/              # 라우트 페이지 컴포넌트 (not-found 등)
+│   ├── App.tsx             # 도감 메인 페이지 UI 및 데이터 필터링 로직
+│   ├── data.ts             # 어류(FISH_DATA) 및 요리(COOKING_DATA) 원본 데이터
+│   ├── index.css           # Tailwind CSS 및 글로벌 스타일 정의
+│   └── main.tsx            # React root 엔트리 포인트
+├── index.html              # HTML 템플릿
+├── package.json            # 의존성 패키지 및 빌드 스크립트
+├── postcss.config.js       # PostCSS 설정
+├── README.md               # 프로젝트 안내 문서
+├── tailwind.config.ts      # Tailwind CSS 설정
+├── tsconfig.json           # TypeScript 설정
+└── vite.config.ts          # Vite 번들러 설정
