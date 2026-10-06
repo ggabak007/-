@@ -22,7 +22,7 @@ const FishingPage = ({ onBack }: { onBack: () => void }) => {
   const getMainCategory = (loc: string) => {
     const n = loc.replace(/\s+/g, '');
     if (n.includes('강')) return '강';
-    if (n.includes('바다') || n.includes('동해') || n.includes('구해') || n === '바다낚시') return '바다';
+    if (n.includes('바다') || n.includes('동해') || n.includes('구해') || n === '배낚시') return '바다';
     if (n.includes('호수') || n.includes('온천산수')) return '호수';
     return '기타';
   };
